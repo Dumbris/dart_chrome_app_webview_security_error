@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Test webview</title>
+    <link rel="stylesheet" href="test_webview.css">
+  </head>
+  <body>
+    <h1>Test webview</h1>
+
+    <p>Hello world from Dart!</p>
+    <webview src="https://googledrive.com/host/0B6-v_MWWvdqWSXpkMTZhQVBvMjg/page_hosted_in_external_server.html"></webview>
+    <button id="button1">send message to webview</button>
+
+    <script src="packages/chrome/bootstrap.js" defer></script>
+
+    <script src="test_webview.dart" type="application/dart"></script>    
+  </body>
+</html>

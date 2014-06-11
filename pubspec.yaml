@@ -1,0 +1,6 @@
+name: test_webview
+description: A sample Chrome packaged application
+dependencies:
+  chrome: any
+transformers:
+- chrome
