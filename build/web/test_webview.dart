@@ -3,6 +3,7 @@ import 'dart:html';
 import 'dart:js' as js;
 
 js.JsObject _webview;
+js.JsObject _webview_wrapper;
 js.JsObject _contentWindow;
 
 void main() {
@@ -23,14 +24,14 @@ void _dispatch(e) {
   e = new js.JsObject.fromBrowserObject(e); 
   print(e['type']);
   if(e['type'] == 'loadstop') {
-      _contentWindow = _webview['contentWindow'];
-      _contentWindow.callMethod('postMessage', ['test message', '*']);
+      _webview_wrapper = new js.JsObject(js.context['WebviewWrapper'], [_webview]);
+      _webview_wrapper.callMethod('postMessage', ['test message', '*']);
   }
 }
 
 void sendMessage(MouseEvent event) {
-  assert(_contentWindow != null);
-  _contentWindow.callMethod('postMessage', ['Click!', '*']);  
+  assert(_webview_wrapper != null);
+  _webview_wrapper.callMethod('postMessage', ['Click!', '*']);
 }
 
 void onMessage(MessageEvent e) {

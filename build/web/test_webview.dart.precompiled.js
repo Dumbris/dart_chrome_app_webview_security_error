@@ -3616,15 +3616,15 @@ var $$ = {};
     }
   },
   MappedListIterable: {
-    "^": "ListIterable;_source,_f",
+    "^": "ListIterable;__internal$_source,_f",
     _f$1: function(arg0) {
       return this._f.call$1(arg0);
     },
     get$length: function(_) {
-      return J.get$length$asx(this._source);
+      return J.get$length$asx(this.__internal$_source);
     },
     elementAt$1: function(_, index) {
-      return this._f$1(J.elementAt$1$ax(this._source, index));
+      return this._f$1(J.elementAt$1$ax(this.__internal$_source, index));
     },
     $asListIterable: function($S, $T) {
       return [$T];
@@ -5162,11 +5162,11 @@ var $$ = {};
       var t1, t2;
       t1 = this.get$_handleData();
       t2 = this.get$_handleError();
-      this._subscription = this._stream._async$_source.listen$3$onDone$onError(t1, this.get$_handleDone(), t2);
+      this._subscription = this._stream._source.listen$3$onDone$onError(t1, this.get$_handleDone(), t2);
     }
   },
   _MapStream: {
-    "^": "_ForwardingStream;_transform,_async$_source",
+    "^": "_ForwardingStream;_transform,_source",
     _transform$1: function(arg0) {
       return this._transform.call$1(arg0);
     },
@@ -7303,7 +7303,15 @@ var $$ = {};
       return P._convertToDart(t1[method].apply(t1, t2));
     },
     $isJsObject: true,
-    static: {JsObject_JsObject$fromBrowserObject: function(object) {
+    static: {JsObject_JsObject: function($constructor, $arguments) {
+        var constr, args, factoryFunction;
+        constr = P._convertToJS($constructor);
+        args = [null];
+        C.JSArray_methods.addAll$1(args, H.setRuntimeTypeInfo(new H.MappedListIterable($arguments, P._convertToJS$closure()), [null, null]));
+        factoryFunction = constr.bind.apply(constr, args);
+        String(factoryFunction);
+        return P._wrapToDart(new factoryFunction());
+      }, JsObject_JsObject$fromBrowserObject: function(object) {
         if (typeof object === "number" || typeof object === "string" || typeof object === "boolean" || object == null)
           throw H.wrapException(P.ArgumentError$("object cannot be a num, string, bool, or null"));
         return P._wrapToDart(P._convertToJS(object));
@@ -7800,13 +7808,13 @@ var $$ = {};
     t1 = J.getInterceptor$asx(e);
     P.print(t1.$index(e, "type"));
     if (J.$eq(t1.$index(e, "type"), "loadstop")) {
-      t1 = J.$index$asx($._webview, "contentWindow");
-      $._contentWindow = t1;
+      t1 = P.JsObject_JsObject(J.$index$asx($.get$context(), "WebviewWrapper"), [$._webview]);
+      $._webview_wrapper = t1;
       t1.callMethod$2("postMessage", ["test message", "*"]);
     }
   }, "call$1", "_dispatch$closure", 2, 0, 14, 1],
   sendMessage: [function($event) {
-    $._contentWindow.callMethod$2("postMessage", ["Click!", "*"]);
+    $._webview_wrapper.callMethod$2("postMessage", ["Click!", "*"]);
   }, "call$1", "sendMessage$closure", 2, 0, 33, 2],
   onMessage: [function(e) {
     var t1 = J.getInterceptor$x(e);
@@ -8219,7 +8227,7 @@ $.Expando__keyCount = 0;
 $.Device__isOpera = null;
 $.Device__isWebKit = null;
 $._webview = null;
-$._contentWindow = null;
+$._webview_wrapper = null;
 Isolate.$lazy($, "globalThis", "globalThis", "get$globalThis", function() {
   return function() {
     return this;
@@ -8314,6 +8322,11 @@ Isolate.$lazy($, "_nullFuture", "Future__nullFuture", "get$Future__nullFuture", 
 });
 Isolate.$lazy($, "_toStringVisiting", "IterableBase__toStringVisiting", "get$IterableBase__toStringVisiting", function() {
   return [];
+});
+Isolate.$lazy($, "context", "context", "get$context", function() {
+  return P._wrapToDart(function() {
+    return this;
+  }());
 });
 Isolate.$lazy($, "_DART_OBJECT_PROPERTY_NAME", "_DART_OBJECT_PROPERTY_NAME", "get$_DART_OBJECT_PROPERTY_NAME", function() {
   return init.getIsolateTag("_$dart_dartObject");
@@ -11996,8 +12009,8 @@ function dart_precompiled($collectedClasses) {
   if ($desc instanceof Array)
     $desc = $desc[1];
   MappedIterator.prototype = $desc;
-  function MappedListIterable(_source, _f) {
-    this._source = _source;
+  function MappedListIterable(__internal$_source, _f) {
+    this.__internal$_source = __internal$_source;
     this._f = _f;
   }
   MappedListIterable.builtin$cls = "MappedListIterable";
@@ -12709,9 +12722,9 @@ function dart_precompiled($collectedClasses) {
   if ($desc instanceof Array)
     $desc = $desc[1];
   _ForwardingStreamSubscription.prototype = $desc;
-  function _MapStream(_transform, _async$_source) {
+  function _MapStream(_transform, _source) {
     this._transform = _transform;
-    this._async$_source = _async$_source;
+    this._source = _source;
   }
   _MapStream.builtin$cls = "_MapStream";
   if (!"name" in _MapStream)
